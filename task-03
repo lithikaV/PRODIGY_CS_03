@@ -1,0 +1,61 @@
+import re
+
+def assess_password_strength(password):
+    strength = 0
+    feedback = []
+
+    # Criteria checks
+    length_criteria = len(password) >= 8
+    uppercase_criteria = re.search(r'[A-Z]', password)
+    lowercase_criteria = re.search(r'[a-z]', password)
+    number_criteria = re.search(r'\d', password)
+    special_char_criteria = re.search(r'[\W_]', password)
+
+    # Evaluating the strength based on criteria
+    if length_criteria:
+        strength += 1
+    else:
+        feedback.append("Password should be at least 8 characters long.")
+
+    if uppercase_criteria:
+        strength += 1
+    else:
+        feedback.append("Password should include at least one uppercase letter.")
+
+    if lowercase_criteria:
+        strength += 1
+    else:
+        feedback.append("Password should include at least one lowercase letter.")
+
+    if number_criteria:
+        strength += 1
+    else:
+        feedback.append("Password should include at least one number.")
+
+    if special_char_criteria:
+        strength += 1
+    else:
+        feedback.append("Password should include at least one special character.")
+
+    # Determining the strength level
+    if strength == 5:
+        strength_level = "Very Strong"
+    elif strength == 4:
+        strength_level = "Strong"
+    elif strength == 3:
+        strength_level = "Moderate"
+    elif strength == 2:
+        strength_level = "Weak"
+    else:
+        strength_level = "Very Weak"
+
+    return strength_level, feedback
+
+# Example usage
+password = input("Enter a password to assess: ")
+strength_level, feedback = assess_password_strength(password)
+print(f"Password Strength: {strength_level}")
+if feedback:
+    print("Suggestions for improvement:")
+    for suggestion in feedback:
+        print(f"- {suggestion}")
